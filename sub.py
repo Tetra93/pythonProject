@@ -1,6 +1,7 @@
 import sys
+import json
 
-from PyQt6.QtWidgets import QMainWindow, QApplication, QWidget
+from PyQt6.QtWidgets import QMainWindow, QApplication, QWidget, QPushButton
 from PyQt6.uic import loadUi
 from PyQt6.QtCore import pyqtSignal
 
@@ -21,6 +22,7 @@ class SubWindow(QMainWindow):
         self.spinBox.valueChanged.connect(self.spinBox_on_changed)
         self.spinBox_2.valueChanged.connect(self.spinBox_2_on_changed)
         self.total_button.clicked.connect(self.total)
+
 
     def spinBox_on_changed(self, value):
         self.spinBox_1_value = value
