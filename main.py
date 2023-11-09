@@ -14,8 +14,8 @@ class MainUI(QMainWindow):
     with open('items.txt', 'r') as file:
         data = json.load(file)
 
-    artifacts = data[0]
-
+    #artifacts_unsorted = data[0]
+    artifacts = sorted(data[0].items(), key=lambda x: (x[1]['stat'], x[1]['value']))
     sub_button: QPushButton
     calculate_button: QPushButton
     comboBox: QComboBox
@@ -50,7 +50,7 @@ class MainUI(QMainWindow):
         self.scroll_area.setGeometry(60, 10, 330, 180)
         self.scroll_area.setWidget(self.widget)
         row = 0
-        for key, inner_dict in self.artifacts.items():
+        for key, inner_dict in self.artifacts:
             name_label = QLabel(key)
             stat_label = QLabel(inner_dict['stat'])
             value_label = QLabel(f"+{inner_dict['value']}")
