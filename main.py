@@ -14,8 +14,9 @@ class MainUI(QMainWindow):
     with open('items.txt', 'r') as file:
         data = json.load(file)
 
-    #artifacts_unsorted = data[0]
-    artifacts = sorted(data[0].items(), key=lambda x: (x[1]['stat'], x[1]['value']))
+    artifacts = data[0]
+    print(artifacts.keys())
+    #sorting_order = {'Strength': 0, 'Defense': 1, 'Magic': 2, 'Health': 3, 'Slots': 4, 'Other': 5}
     sub_button: QPushButton
     calculate_button: QPushButton
     comboBox: QComboBox
@@ -41,16 +42,19 @@ class MainUI(QMainWindow):
         super(MainUI, self).__init__()
         loadUi("mainWindow.ui", self)
 
+        #self.artifacts = sorted(self.data[0].items(), key=lambda x: (self.sorting_order.get(x[1]['stat']), x[1]['value']))
+
+        row = 0
         self.comboBox.addItems(['Clavat', 'Selkie', 'Lilty', 'Yuke'])
         self.comboBox.currentTextChanged.connect(self.race_changed)
         self.widget = QWidget(self.centralwidget)
-        self.widget.setGeometry(60, 10, 330, 180)
+        self.widget.setGeometry(40, 10, 360, 180)
         self.grid = QGridLayout(self.widget)
+        #self.grid.setSpacing(10)
         self.scroll_area = QScrollArea(self.centralwidget)
-        self.scroll_area.setGeometry(60, 10, 330, 180)
+        self.scroll_area.setGeometry(40, 10, 360, 180)
         self.scroll_area.setWidget(self.widget)
-        row = 0
-        for key, inner_dict in self.artifacts:
+        for key, inner_dict in self.artifacts.items():
             name_label = QLabel(key)
             stat_label = QLabel(inner_dict['stat'])
             value_label = QLabel(f"+{inner_dict['value']}")
@@ -62,6 +66,11 @@ class MainUI(QMainWindow):
             self.grid.addWidget(value_label, row, 2)
             self.grid.addWidget(checkbox, row, 3)
             row += 1
+        self.grid.setColumnStretch(0, 2)
+        self.grid.setColumnStretch(1, 2)
+        self.grid.setColumnStretch(2, 1)
+        self.grid.setColumnStretch(3, 1)
+        self.widget.setFixedHeight(self.grid.sizeHint().height())
 
         self.sub_button.clicked.connect(self.sub_on_click)
         self.label1.setText(self.label1_text)
