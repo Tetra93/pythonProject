@@ -15,11 +15,19 @@ class MainUI(QMainWindow):
         data = json.load(file)
 
     artifacts = data[0]
+    weapons = data[1]
+    main_armor = data[2]
+    sub_armor = data[3]
+    accessories = data[4]
     print(artifacts.keys())
-    #sorting_order = {'Strength': 0, 'Defense': 1, 'Magic': 2, 'Health': 3, 'Slots': 4, 'Other': 5}
     sub_button: QPushButton
     calculate_button: QPushButton
-    comboBox: QComboBox
+    race_box: QComboBox
+    gender_box: QComboBox
+    weapon_box: QComboBox
+    main_armor_box: QComboBox
+    sub_armor_box: QComboBox
+    accessory_box: QComboBox
     label1: QLabel
     label2: QLabel
     label3: QLabel
@@ -35,31 +43,42 @@ class MainUI(QMainWindow):
     race_strength = 0
     race_defense = 0
     race_magic = 0
-    equip_strength = 0
-    equip_defense = 0
+    weapon_strength = int(weapons['Copper Sword']['Strength'])
+    main_defense = int(main_armor['Travel Clothes']['Defense'])
+    sub_defense = int(sub_armor['Makeshift Shield']['Defense'])
 
     def __init__(self):
         super(MainUI, self).__init__()
         loadUi("mainWindow.ui", self)
 
-        #self.artifacts = sorted(self.data[0].items(), key=lambda x: (self.sorting_order.get(x[1]['stat']), x[1]['value']))
-
         row = 0
-        self.comboBox.addItems(['Clavat', 'Selkie', 'Lilty', 'Yuke'])
-        self.comboBox.currentTextChanged.connect(self.race_changed)
+        self.race_box.addItems(['Clavat', 'Selkie', 'Lilty', 'Yuke'])
+        self.gender_box.addItems((['Male', 'Female']))
+        for key, inner_dict in self.weapons.items():
+            self.weapon_box.addItems([key])
+        for key, inner_dict in self.main_armor.items():
+            self.main_armor_box.addItems([key])
+        for key, inner_dict in self.sub_armor.items():
+            self.sub_armor_box.addItems([key])
+        for key, inner_dict in self.accessories.items():
+            self.accessory_box.addItems([key])
+        self.race_box.currentTextChanged.connect(self.race_changed)
+        self.weapon_box.currentTextChanged.connect(self.weapon_changed)
         self.widget = QWidget(self.centralwidget)
-        self.widget.setGeometry(40, 10, 360, 180)
+        self.widget.setGeometry(20, 10, 330, 180)
         self.grid = QGridLayout(self.widget)
-        #self.grid.setSpacing(10)
         self.scroll_area = QScrollArea(self.centralwidget)
-        self.scroll_area.setGeometry(40, 10, 360, 180)
+        self.scroll_area.setGeometry(20, 10, 330, 180)
         self.scroll_area.setWidget(self.widget)
         for key, inner_dict in self.artifacts.items():
             name_label = QLabel(key)
-            stat_label = QLabel(inner_dict['stat'])
+            stat_value = inner_dict['stat']
+            if stat_value == 'Other':
+                stat_value = 'Magic'
+            stat_label = QLabel(stat_value)
             value_label = QLabel(f"+{inner_dict['value']}")
             checkbox = QCheckBox()
-            checkbox.stateChanged.connect(lambda state, stat=inner_dict['stat'], value=inner_dict['value']:
+            checkbox.stateChanged.connect(lambda state, stat=stat_value, value=inner_dict['value']:
                                           self.on_checkbox_changed(state, stat, value))
             self.grid.addWidget(name_label, row, 0)
             self.grid.addWidget(stat_label, row, 1)
@@ -77,6 +96,7 @@ class MainUI(QMainWindow):
         self.label2.setText(self.label2_text)
         self.label3.setText(self.label3_text)
         self.race_changed()
+        self.weapon_changed()
         self.sub_ui = None
 
     def sub_on_click(self):
@@ -86,7 +106,7 @@ class MainUI(QMainWindow):
         self.sub_ui.closed.connect(self.show_main_ui)
 
     def race_changed(self):
-        race = self.comboBox.currentText()
+        race = self.race_box.currentText()
         if race == 'Clavat':
             self.race_strength = 8
             self.race_defense = 7
@@ -104,6 +124,18 @@ class MainUI(QMainWindow):
             self.race_defense = 5
             self.race_magic = 15
 
+        self.total_stats()
+
+    def weapon_changed(self):
+        self.weapon_strength = int(self.weapons[self.weapon_box.currentText()]['Strength'])
+        self.total_stats()
+
+    def main_armor_changed(self):
+        self.main_defense = int(self.main_armor[self.main_armor_box.currentText()]['Defense'])
+        self.total_stats()
+
+    def sub_armor_changed(self):
+        self.sub_armor = int(self.sub_armor_box[self.sub_armor_box.currentText()]['Defense'])
         self.total_stats()
 
     def on_checkbox_changed(self, state, stat, value):
@@ -124,8 +156,8 @@ class MainUI(QMainWindow):
         self.total_stats()
         
     def total_stats(self):
-        strength = (self.artifact_strength + self.race_strength + self.equip_strength)
-        defense = (self.artifact_defense + self.race_defense + self.equip_defense)
+        strength = (self.artifact_strength + self.race_strength + self.weapon_strength)
+        defense = (self.artifact_defense + self.race_defense + self.main_defense + self.sub_defense)
         magic = (self.artifact_magic + self.race_magic)
         self.label1_2.setText(str(strength))
         self.label2_2.setText(str(defense))

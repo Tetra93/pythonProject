@@ -7,7 +7,7 @@ sorting_order = {'Strength': 0, 'Defense': 1, 'Magic': 2, 'Health': 3, 'Slots': 
 with open('items.txt', 'r') as file:
     data = json.load(file)
 
-artifacts = data[0]
+items = data
 #print(artifacts)
 #This is the data I want to sort. It's the information stored inside of items.txt
 """
@@ -184,18 +184,49 @@ dictionary_list = [{'Ashura':
 
 """
 
-artifacts.update({'Holy Ring':
-                  {'stat': 'Other',
-                   'value': 1,
-                   'locations':
-                   ['Foggy Swamp']}})
-print(artifacts)
+new_artifact = {'Holy Ring':
+                {'stat': 'Other',
+                 'value': 1,
+                 'locations':
+                 ['Foggy Swamp']}}
 
-#dictionary_list = [dict(sorted(dictionary_list[0].items(), key=lambda x: (sorting_order.get(x[1]['stat']), x[1]['value'])))]
+new_weapon = {
+      'Blaze Nova': {
+          'race': 'Clavat',
+          'Strength': 57,
+          'focus attack': 'Assault',
+          'effect': None
+      }
+  }
 
-#print(dictionary_list)
-#with open('items.txt', 'w') as file:
-#    json.dump(dictionary_list, file)
+new_main_armor = {'Bronze Plate':
+                  {'race': 'All',
+                   'Defense': 13,
+                   'effect': None}}
+
+#if list(new_artifact.keys())[0] not in items[0].keys():
+#    items[0].update(new_artifact)
+
+print(items[1].keys())
+if list(new_weapon.keys())[0] not in items[1].keys():
+    items[1].update(new_weapon)
+
+print(items[0].keys())
+print(items[1].keys())
+
+items[0] = dict(sorted(items[0].items(), key=lambda x: (sorting_order.get(x[1]['stat']), x[1]['value'])))
+
+#items.append({'Copper Sword': {'race': 'Clavat', 'Strength': '15', 'focus attack': 'Power Slash'}})
+
+#items.append({'Travel Clothes': {'race': 'All', 'Defense': 10, 'effect': None, 'value': None}})
+
+#items.append({'Makeshift Shield': {'race': 'Clavat', 'Defense': 7, 'effect': None, 'value': None}})
+#items.append({'Badge of the Flame': {'race': 'All', 'effect': 'Resist Fire', 'value': 1}})
+#print(items[2])
+#print(items[3])
+#print(items[4])
+with open('items.txt', 'w') as file:
+    json.dump(items, file)
 
 
 
