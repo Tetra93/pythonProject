@@ -16,10 +16,10 @@ class MainUI(QMainWindow):
 
     artifacts = data[0]
     weapons = data[1]
+    weapons_filtered = []
     main_armor = data[2]
     sub_armor = data[3]
     accessories = data[4]
-    print(artifacts.keys())
     sub_button: QPushButton
     calculate_button: QPushButton
     race_box: QComboBox
@@ -54,8 +54,6 @@ class MainUI(QMainWindow):
         row = 0
         self.race_box.addItems(['Clavat', 'Selkie', 'Lilty', 'Yuke'])
         self.gender_box.addItems((['Male', 'Female']))
-        for key, inner_dict in self.weapons.items():
-            self.weapon_box.addItems([key])
         for key, inner_dict in self.main_armor.items():
             self.main_armor_box.addItems([key])
         for key, inner_dict in self.sub_armor.items():
@@ -63,6 +61,7 @@ class MainUI(QMainWindow):
         for key, inner_dict in self.accessories.items():
             self.accessory_box.addItems([key])
         self.race_box.currentTextChanged.connect(self.race_changed)
+        self.populate_weapons()
         self.weapon_box.currentTextChanged.connect(self.weapon_changed)
         self.widget = QWidget(self.centralwidget)
         self.widget.setGeometry(20, 10, 330, 180)
@@ -105,6 +104,11 @@ class MainUI(QMainWindow):
         self.sub_ui.show()
         self.sub_ui.closed.connect(self.show_main_ui)
 
+    def populate_weapons(self):
+        for key, inner_dict in self.weapons.items():
+            if self.race_box.currentText() == inner_dict['race']:
+                self.weapon_box.addItems([key])
+
     def race_changed(self):
         race = self.race_box.currentText()
         if race == 'Clavat':
@@ -123,12 +127,18 @@ class MainUI(QMainWindow):
             self.race_strength = 5
             self.race_defense = 5
             self.race_magic = 15
-
+        self.weapon_box.clear()
+        self.populate_weapons()
         self.total_stats()
 
     def weapon_changed(self):
-        self.weapon_strength = int(self.weapons[self.weapon_box.currentText()]['Strength'])
-        self.total_stats()
+        if self.weapon_box.currentText() != '':
+            print(self.weapons[self.weapon_box.currentText()])
+            self.weapon_strength = int(self.weapons[self.weapon_box.currentText()]['Strength'])
+            self.total_stats()
+        else:
+            self.weapon_strength = 0
+            self.total_stats()
 
     def main_armor_changed(self):
         self.main_defense = int(self.main_armor[self.main_armor_box.currentText()]['Defense'])

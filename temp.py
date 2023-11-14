@@ -2,7 +2,7 @@ import json
 
 
 sorting_order = {'Strength': 0, 'Defense': 1, 'Magic': 2, 'Health': 3, 'Slots': 4, 'Other': 5}
-
+race_order = {'Clavat': 0, 'Selkie': 1, 'Lilty': 2, 'Yuke': 3}
 
 with open('items.txt', 'r') as file:
     data = json.load(file)
@@ -191,10 +191,10 @@ new_artifact = {'Holy Ring':
                  ['Foggy Swamp']}}
 
 new_weapon = {
-      'Blaze Nova': {
-          'race': 'Clavat',
-          'Strength': 57,
-          'focus attack': 'Assault',
+      'Queen\'s Heel': {
+          'race': 'Selkie',
+          'Strength': 33,
+          'focus attack': 'Power Kick',
           'effect': None
       }
   }
@@ -215,7 +215,9 @@ print(items[0].keys())
 print(items[1].keys())
 
 items[0] = dict(sorted(items[0].items(), key=lambda x: (sorting_order.get(x[1]['stat']), x[1]['value'])))
+items[1] = dict(sorted(items[1].items(), key=lambda x: (race_order.get(x[1]['race']), x[1]['Strength'])))
 
+print(items[1].keys())
 #items.append({'Copper Sword': {'race': 'Clavat', 'Strength': '15', 'focus attack': 'Power Slash'}})
 
 #items.append({'Travel Clothes': {'race': 'All', 'Defense': 10, 'effect': None, 'value': None}})
