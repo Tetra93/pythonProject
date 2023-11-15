@@ -184,11 +184,26 @@ dictionary_list = [{'Ashura':
 
 """
 
-new_artifact = {'Futsu-no-Mitama':
-                {'stat': 'Strength',
-                 'value': 7,
+new_artifact = {'Sage\'s Staff':
+                {'stat': 'Magic',
+                 'value': 3,
                  'locations':
-                 ['Foggy Swamp']}}
+                 ['Kilanda, Cycle 1/2',
+                  'River Belle Path, Cycle 2/3',
+                  'Goblin Wall, Cycle 2/3',
+                  'The Mushroom Forest, Cycle 1/2/3',
+                  'The Mine of Cathuriges, Cycle 2/3',
+                  'Tida, Cycle 2/3',
+                  'Veo Lu Sluice, Cycle 1/2/3',
+                  'Conall Curach, Cycle 1/2/3',
+                  'Rebena Te Ra, Cycle 1',
+                  'Lynari Desert, Cycle 1',
+                  'Moschet Manor, Cycle 2/3',
+                  'Selepation Cave, Cycle 3',
+                  'Falling Leaves Path',
+                  'Foggy Swamp',
+                  'Moonlit Desert',
+                  'Pale Cave']}}
 
 new_weapon = {
       'Queen\'s Heel': {
