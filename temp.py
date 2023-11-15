@@ -184,11 +184,13 @@ dictionary_list = [{'Ashura':
 
 """
 
-new_artifact = {'Holy Ring':
-                {'stat': 'Other',
-                 'value': 1,
+new_artifact = {'Gekkabijin':
+                {'stat': 'Strength',
+                 'value': 5,
                  'locations':
-                 ['Foggy Swamp']}}
+                 ['Moschet Manor, Cycle 3',
+                  'Moonlit Desert',
+                  'Oblivion Village']}}
 
 new_weapon = {
       'Queen\'s Heel': {
@@ -204,20 +206,20 @@ new_main_armor = {'Bronze Plate':
                    'Defense': 13,
                    'effect': None}}
 
-#if list(new_artifact.keys())[0] not in items[0].keys():
-#    items[0].update(new_artifact)
+if list(new_artifact.keys())[0] not in items[0].keys():
+    items[0].update(new_artifact)
 
-print(items[1].keys())
-if list(new_weapon.keys())[0] not in items[1].keys():
-    items[1].update(new_weapon)
+#print(items[1].keys())
+#if list(new_weapon.keys())[0] not in items[1].keys():
+#    items[1].update(new_weapon)
 
 print(items[0].keys())
-print(items[1].keys())
+#print(items[1].keys())
 
 items[0] = dict(sorted(items[0].items(), key=lambda x: (sorting_order.get(x[1]['stat']), x[1]['value'])))
-items[1] = dict(sorted(items[1].items(), key=lambda x: (race_order.get(x[1]['race']), x[1]['Strength'])))
+#items[1] = dict(sorted(items[1].items(), key=lambda x: (race_order.get(x[1]['race']), x[1]['Strength'])))
 
-print(items[1].keys())
+#print(items[1].keys())
 #items.append({'Copper Sword': {'race': 'Clavat', 'Strength': '15', 'focus attack': 'Power Slash'}})
 
 #items.append({'Travel Clothes': {'race': 'All', 'Defense': 10, 'effect': None, 'value': None}})
