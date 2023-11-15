@@ -184,13 +184,11 @@ dictionary_list = [{'Ashura':
 
 """
 
-new_artifact = {'Gekkabijin':
+new_artifact = {'Futsu-no-Mitama':
                 {'stat': 'Strength',
-                 'value': 5,
+                 'value': 7,
                  'locations':
-                 ['Moschet Manor, Cycle 3',
-                  'Moonlit Desert',
-                  'Oblivion Village']}}
+                 ['Foggy Swamp']}}
 
 new_weapon = {
       'Queen\'s Heel': {
