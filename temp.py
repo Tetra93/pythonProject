@@ -184,27 +184,13 @@ dictionary_list = [{'Ashura':
 
 """
 
-new_artifact = {'Sage\'s Staff':
-                {'stat': 'Magic',
-                 'value': 3,
+new_artifact = {'Sun Pendant':
+                {'stat': 'Health',
+                 'value': 1,
                  'locations':
-                 ['Kilanda, Cycle 1/2',
-                  'River Belle Path, Cycle 2/3',
-                  'Goblin Wall, Cycle 2/3',
-                  'The Mushroom Forest, Cycle 1/2/3',
-                  'The Mine of Cathuriges, Cycle 2/3',
-                  'Tida, Cycle 2/3',
-                  'Veo Lu Sluice, Cycle 1/2/3',
-                  'Conall Curach, Cycle 1/2/3',
-                  'Rebena Te Ra, Cycle 1',
-                  'Lynari Desert, Cycle 1',
-                  'Moschet Manor, Cycle 2/3',
-                  'Selepation Cave, Cycle 3',
-                  'Falling Leaves Path',
-                  'Foggy Swamp',
-                  'Moonlit Desert',
-                  'Pale Cave']}}
-
+                 ['Lynari Desert, Cycle 3',
+                  'Misty Mount Kilanda']}}
+"""
 new_weapon = {
       'Queen\'s Heel': {
           'race': 'Selkie',
@@ -214,10 +200,16 @@ new_weapon = {
       }
   }
 
-new_main_armor = {'Bronze Plate':
-                  {'race': 'All',
-                   'Defense': 13,
-                   'effect': None}}
+new_main_armor = {'Gaia Plate':
+   {'race': 'Clavat',
+    'Defense': 30,
+    'effect': None}}
+"""
+new_sub_armor = {'Valkyrie Helm':
+   {'race': 'Yuke',
+    'Defense': 23,
+    'effect': 'Resist Stop',
+    'value': 2}}
 
 if list(new_artifact.keys())[0] not in items[0].keys():
     items[0].update(new_artifact)
@@ -226,16 +218,27 @@ if list(new_artifact.keys())[0] not in items[0].keys():
 #if list(new_weapon.keys())[0] not in items[1].keys():
 #    items[1].update(new_weapon)
 
-print(items[0].keys())
-#print(items[1].keys())
+#if list(new_main_armor.keys())[0] not in items[2].keys():
+#    items[2].update(new_main_armor)
+
+#if list(new_sub_armor.keys())[0] not in items[3].keys():
+#    items[3].update(new_sub_armor)
+
+#print(items[0].keys())
 
 items[0] = dict(sorted(items[0].items(), key=lambda x: (sorting_order.get(x[1]['stat']), x[1]['value'])))
 #items[1] = dict(sorted(items[1].items(), key=lambda x: (race_order.get(x[1]['race']), x[1]['Strength'])))
+#items[2] = dict(sorted(items[2].items(), key=lambda x: x[1]['Defense']))
+#items[3] = dict(sorted(items[3].items(), key=lambda x: (race_order.get(x[1]['race']), x[1]['Defense'])))
 
-#print(items[1].keys())
+print(items[0].keys())
+#print(items[1])
+#print(items[2])
+#print(items[3])
+
 #items.append({'Copper Sword': {'race': 'Clavat', 'Strength': '15', 'focus attack': 'Power Slash'}})
 
-#items.append({'Travel Clothes': {'race': 'All', 'Defense': 10, 'effect': None, 'value': None}})
+#items.append()
 
 #items.append({'Makeshift Shield': {'race': 'Clavat', 'Defense': 7, 'effect': None, 'value': None}})
 #items.append({'Badge of the Flame': {'race': 'All', 'effect': 'Resist Fire', 'value': 1}})

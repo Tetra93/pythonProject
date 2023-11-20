@@ -1,12 +1,13 @@
+import os.path
 import sys
 import json
-
+import sub
 from PyQt6.QtWidgets import (QMainWindow, QApplication, QPushButton,
-                             QLabel, QScrollArea, QCheckBox, QWidget, QGridLayout, QComboBox)
+                             QLabel, QScrollArea, QCheckBox, QWidget,
+                             QGridLayout, QComboBox, QHBoxLayout)
 from PyQt6.uic import loadUi
 from PyQt6.QtCore import pyqtSignal
-
-import sub
+from PyQt6.QtGui import QPixmap
 from sub import SubWindow
 
 
@@ -20,6 +21,10 @@ class MainUI(QMainWindow):
     main_armor = data[2]
     sub_armor = data[3]
     accessories = data[4]
+    images_path = os.path.join(os.path.dirname(__file__), 'images')
+    heart_path = os.path.join(images_path, 'heart2.png')
+    #heart_size = (30, 30)
+    #pixmap = QPixmap(heart_path).scaled(*heart_size)
     sub_button: QPushButton
     calculate_button: QPushButton
     race_box: QComboBox
@@ -28,15 +33,12 @@ class MainUI(QMainWindow):
     main_armor_box: QComboBox
     sub_armor_box: QComboBox
     accessory_box: QComboBox
-    label1: QLabel
-    label2: QLabel
-    label3: QLabel
-    label1_2: QLabel
-    label2_2: QLabel
-    label3_2: QLabel
-    label1_text = 'Strength'
-    label2_text = 'Defense'
-    label3_text = 'Magic'
+    hearts: QHBoxLayout
+    command_slots:QHBoxLayout
+    heart1: QLabel
+    strength_label: QLabel
+    defense_label: QLabel
+    magic_label: QLabel
     artifact_strength = 0
     artifact_defense = 0
     artifact_magic = 0
@@ -54,15 +56,16 @@ class MainUI(QMainWindow):
         row = 0
         self.race_box.addItems(['Clavat', 'Selkie', 'Lilty', 'Yuke'])
         self.gender_box.addItems((['Male', 'Female']))
-        for key, inner_dict in self.main_armor.items():
-            self.main_armor_box.addItems([key])
-        for key, inner_dict in self.sub_armor.items():
-            self.sub_armor_box.addItems([key])
         for key, inner_dict in self.accessories.items():
             self.accessory_box.addItems([key])
+        #self.heart1.setPixmap(self.pixmap)
         self.race_box.currentTextChanged.connect(self.race_changed)
         self.populate_weapons()
         self.weapon_box.currentTextChanged.connect(self.weapon_changed)
+        self.populate_main_armor()
+        self.main_armor_box.currentTextChanged.connect(self.main_armor_changed)
+        self.populate_sub_armor()
+        self.sub_armor_box.currentTextChanged.connect(self.sub_armor_changed)
         self.widget = QWidget(self.centralwidget)
         self.widget.setGeometry(20, 10, 330, 180)
         self.grid = QGridLayout(self.widget)
@@ -91,11 +94,10 @@ class MainUI(QMainWindow):
         self.widget.setFixedHeight(self.grid.sizeHint().height())
 
         self.sub_button.clicked.connect(self.sub_on_click)
-        self.label1.setText(self.label1_text)
-        self.label2.setText(self.label2_text)
-        self.label3.setText(self.label3_text)
         self.race_changed()
         self.weapon_changed()
+        self.main_armor_changed()
+        self.sub_armor_changed()
         self.sub_ui = None
 
     def sub_on_click(self):
@@ -108,6 +110,16 @@ class MainUI(QMainWindow):
         for key, inner_dict in self.weapons.items():
             if self.race_box.currentText() == inner_dict['race']:
                 self.weapon_box.addItems([key])
+
+    def populate_main_armor(self):
+        for key, inner_dict in self.main_armor.items():
+            if inner_dict['race'] == self.race_box.currentText() or inner_dict['race'] == 'All':
+                self.main_armor_box.addItems([key])
+
+    def populate_sub_armor(self):
+        for key, inner_dict in self.sub_armor.items():
+            if inner_dict['race'] == self.race_box.currentText():
+                self.sub_armor_box.addItems([key])
 
     def race_changed(self):
         race = self.race_box.currentText()
@@ -128,12 +140,15 @@ class MainUI(QMainWindow):
             self.race_defense = 5
             self.race_magic = 15
         self.weapon_box.clear()
+        self.main_armor_box.clear()
+        self.sub_armor_box.clear()
         self.populate_weapons()
+        self.populate_main_armor()
+        self.populate_sub_armor()
         self.total_stats()
 
     def weapon_changed(self):
         if self.weapon_box.currentText() != '':
-            print(self.weapons[self.weapon_box.currentText()])
             self.weapon_strength = int(self.weapons[self.weapon_box.currentText()]['Strength'])
             self.total_stats()
         else:
@@ -141,12 +156,20 @@ class MainUI(QMainWindow):
             self.total_stats()
 
     def main_armor_changed(self):
-        self.main_defense = int(self.main_armor[self.main_armor_box.currentText()]['Defense'])
-        self.total_stats()
+        if self.main_armor_box.currentText() != '':
+            self.main_defense = int(self.main_armor[self.main_armor_box.currentText()]['Defense'])
+            self.total_stats()
+        else:
+            self.main_defense = 0
+            self.total_stats()
 
     def sub_armor_changed(self):
-        self.sub_armor = int(self.sub_armor_box[self.sub_armor_box.currentText()]['Defense'])
-        self.total_stats()
+        if self.sub_armor_box.currentText() != '':
+            self.sub_defense = int(self.sub_armor[self.sub_armor_box.currentText()]['Defense'])
+            self.total_stats()
+        else:
+            self.sub_defense = 0
+            self.total_stats()
 
     def on_checkbox_changed(self, state, stat, value):
         if state:
@@ -169,9 +192,9 @@ class MainUI(QMainWindow):
         strength = (self.artifact_strength + self.race_strength + self.weapon_strength)
         defense = (self.artifact_defense + self.race_defense + self.main_defense + self.sub_defense)
         magic = (self.artifact_magic + self.race_magic)
-        self.label1_2.setText(str(strength))
-        self.label2_2.setText(str(defense))
-        self.label3_2.setText(str(magic))
+        self.strength_label.setText(str(strength))
+        self.defense_label.setText(str(defense))
+        self.magic_label.setText(str(magic))
 
     def show_main_ui(self):
         self.show()
