@@ -284,11 +284,17 @@
       <rect>
        <x>20</x>
        <y>20</y>
-       <width>164</width>
+       <width>181</width>
        <height>38</height>
       </rect>
      </property>
      <layout class="QHBoxLayout" name="hearts">
+      <property name="spacing">
+       <number>0</number>
+      </property>
+      <property name="sizeConstraint">
+       <enum>QLayout::SetNoConstraint</enum>
+      </property>
       <property name="leftMargin">
        <number>0</number>
       </property>
@@ -308,18 +314,21 @@
         </property>
         <property name="maximumSize">
          <size>
-          <width>15</width>
-          <height>15</height>
+          <width>22</width>
+          <height>20</height>
          </size>
         </property>
         <property name="text">
          <string/>
         </property>
         <property name="pixmap">
-         <pixmap resource="images/heart.qrc">:/heart image/heart.png</pixmap>
+         <pixmap>images/heart.png</pixmap>
         </property>
         <property name="scaledContents">
          <bool>true</bool>
+        </property>
+        <property name="margin">
+         <number>0</number>
         </property>
        </widget>
       </item>
@@ -327,18 +336,24 @@
        <widget class="QLabel" name="heart2">
         <property name="maximumSize">
          <size>
-          <width>15</width>
-          <height>15</height>
+          <width>22</width>
+          <height>20</height>
          </size>
+        </property>
+        <property name="lineWidth">
+         <number>1</number>
         </property>
         <property name="text">
          <string/>
         </property>
         <property name="pixmap">
-         <pixmap resource="images/heart.qrc">:/heart image/heart.png</pixmap>
+         <pixmap>images/heart.png</pixmap>
         </property>
         <property name="scaledContents">
          <bool>true</bool>
+        </property>
+        <property name="margin">
+         <number>0</number>
         </property>
        </widget>
       </item>
@@ -346,18 +361,21 @@
        <widget class="QLabel" name="heart3">
         <property name="maximumSize">
          <size>
-          <width>15</width>
-          <height>15</height>
+          <width>22</width>
+          <height>20</height>
          </size>
         </property>
         <property name="text">
          <string/>
         </property>
         <property name="pixmap">
-         <pixmap resource="images/heart.qrc">:/heart image/heart.png</pixmap>
+         <pixmap>:/heart image/heart.png</pixmap>
         </property>
         <property name="scaledContents">
          <bool>true</bool>
+        </property>
+        <property name="margin">
+         <number>0</number>
         </property>
        </widget>
       </item>
@@ -365,18 +383,21 @@
        <widget class="QLabel" name="heart4">
         <property name="maximumSize">
          <size>
-          <width>15</width>
-          <height>15</height>
+          <width>22</width>
+          <height>20</height>
          </size>
         </property>
         <property name="text">
          <string/>
         </property>
         <property name="pixmap">
-         <pixmap resource="images/heart.qrc">:/heart image/heart.png</pixmap>
+         <pixmap>:/heart image/heart.png</pixmap>
         </property>
         <property name="scaledContents">
          <bool>true</bool>
+        </property>
+        <property name="margin">
+         <number>0</number>
         </property>
        </widget>
       </item>
@@ -384,15 +405,18 @@
        <widget class="QLabel" name="heart5">
         <property name="maximumSize">
          <size>
-          <width>15</width>
-          <height>15</height>
+          <width>22</width>
+          <height>20</height>
          </size>
         </property>
         <property name="text">
-         <string>TextLabel</string>
+         <string/>
         </property>
         <property name="scaledContents">
          <bool>true</bool>
+        </property>
+        <property name="margin">
+         <number>0</number>
         </property>
        </widget>
       </item>
@@ -400,15 +424,18 @@
        <widget class="QLabel" name="heart6">
         <property name="maximumSize">
          <size>
-          <width>15</width>
-          <height>15</height>
+          <width>22</width>
+          <height>20</height>
          </size>
         </property>
         <property name="text">
-         <string>TextLabel</string>
+         <string/>
         </property>
         <property name="scaledContents">
          <bool>true</bool>
+        </property>
+        <property name="margin">
+         <number>0</number>
         </property>
        </widget>
       </item>
@@ -416,15 +443,18 @@
        <widget class="QLabel" name="heart7">
         <property name="maximumSize">
          <size>
-          <width>15</width>
-          <height>15</height>
+          <width>22</width>
+          <height>20</height>
          </size>
         </property>
         <property name="text">
-         <string>TextLabel</string>
+         <string/>
         </property>
         <property name="scaledContents">
          <bool>true</bool>
+        </property>
+        <property name="margin">
+         <number>0</number>
         </property>
        </widget>
       </item>
@@ -432,15 +462,18 @@
        <widget class="QLabel" name="heart8">
         <property name="maximumSize">
          <size>
-          <width>15</width>
-          <height>15</height>
+          <width>22</width>
+          <height>20</height>
          </size>
         </property>
         <property name="text">
-         <string>TextLabel</string>
+         <string/>
         </property>
         <property name="scaledContents">
          <bool>true</bool>
+        </property>
+        <property name="margin">
+         <number>0</number>
         </property>
        </widget>
       </item>
@@ -449,37 +482,126 @@
     <widget class="QWidget" name="horizontalLayoutWidget_2">
      <property name="geometry">
       <rect>
-       <x>210</x>
+       <x>20</x>
        <y>60</y>
-       <width>160</width>
+       <width>220</width>
        <height>31</height>
       </rect>
      </property>
      <layout class="QHBoxLayout" name="command_slots">
       <property name="spacing">
-       <number>6</number>
+       <number>0</number>
       </property>
+      <item>
+       <widget class="QLabel" name="slot1">
+        <property name="maximumSize">
+         <size>
+          <width>22</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="slot2">
+        <property name="maximumSize">
+         <size>
+          <width>22</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="slot3">
+        <property name="maximumSize">
+         <size>
+          <width>22</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="slot4">
+        <property name="maximumSize">
+         <size>
+          <width>22</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="slot5">
+        <property name="maximumSize">
+         <size>
+          <width>22</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="slot6">
+        <property name="maximumSize">
+         <size>
+          <width>22</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="slot7">
+        <property name="maximumSize">
+         <size>
+          <width>22</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="slot8">
+        <property name="maximumSize">
+         <size>
+          <width>22</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
      </layout>
-    </widget>
-    <widget class="QLabel" name="label_14">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>65</y>
-       <width>160</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>TextLabel</string>
-     </property>
     </widget>
    </widget>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
- <resources>
-  <include location="images/heart.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

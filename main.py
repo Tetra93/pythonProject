@@ -1,4 +1,5 @@
 import os.path
+import random
 import sys
 import json
 import sub
@@ -22,9 +23,9 @@ class MainUI(QMainWindow):
     sub_armor = data[3]
     accessories = data[4]
     images_path = os.path.join(os.path.dirname(__file__), 'images')
-    heart_path = os.path.join(images_path, 'heart2.png')
-    #heart_size = (30, 30)
-    #pixmap = QPixmap(heart_path).scaled(*heart_size)
+    icons_path = os.path.join(images_path, 'icons')
+    icons_list = os.listdir(icons_path)
+    heart_path = os.path.join(images_path, 'heart.png')
     sub_button: QPushButton
     calculate_button: QPushButton
     race_box: QComboBox
@@ -34,7 +35,7 @@ class MainUI(QMainWindow):
     sub_armor_box: QComboBox
     accessory_box: QComboBox
     hearts: QHBoxLayout
-    command_slots:QHBoxLayout
+    command_slots: QHBoxLayout
     heart1: QLabel
     strength_label: QLabel
     defense_label: QLabel
@@ -42,6 +43,8 @@ class MainUI(QMainWindow):
     artifact_strength = 0
     artifact_defense = 0
     artifact_magic = 0
+    health = 4
+    slots = 4
     race_strength = 0
     race_defense = 0
     race_magic = 0
@@ -54,11 +57,11 @@ class MainUI(QMainWindow):
         loadUi("mainWindow.ui", self)
 
         row = 0
+        hearts = self.findChild(QHBoxLayout, 'hearts')
         self.race_box.addItems(['Clavat', 'Selkie', 'Lilty', 'Yuke'])
         self.gender_box.addItems((['Male', 'Female']))
         for key, inner_dict in self.accessories.items():
             self.accessory_box.addItems([key])
-        #self.heart1.setPixmap(self.pixmap)
         self.race_box.currentTextChanged.connect(self.race_changed)
         self.populate_weapons()
         self.weapon_box.currentTextChanged.connect(self.weapon_changed)
@@ -94,10 +97,20 @@ class MainUI(QMainWindow):
         self.widget.setFixedHeight(self.grid.sizeHint().height())
 
         self.sub_button.clicked.connect(self.sub_on_click)
+        self.command_slots.itemAt(0).widget().setPixmap(
+            QPixmap(os.path.join(self.icons_path, f"{self.icons_list[1]}")).scaled(22, 20))
+        self.command_slots.itemAt(1).widget().setPixmap(
+            QPixmap(os.path.join(self.icons_path, f"{self.icons_list[0]}")).scaled(22, 20))
+        self.command_slots.itemAt(2).widget().setPixmap(
+            QPixmap(os.path.join(self.icons_path, f"{self.icons_list[1]}")).scaled(22, 20))
+        self.command_slots.itemAt(3).widget().setPixmap(
+            QPixmap(os.path.join(self.icons_path, f"{self.icons_list[1]}")).scaled(22, 20))
+
         self.race_changed()
         self.weapon_changed()
         self.main_armor_changed()
         self.sub_armor_changed()
+        self.total_health()
         self.sub_ui = None
 
     def sub_on_click(self):
@@ -179,6 +192,12 @@ class MainUI(QMainWindow):
                 self.artifact_defense += value
             elif stat == 'Magic':
                 self.artifact_magic += value
+            elif stat == 'Health':
+                self.health += value
+                self.total_health()
+            elif stat == 'Slots':
+                self.slots += value
+                self.total_slots()
         else:
             if stat == 'Strength':
                 self.artifact_strength -= value
@@ -186,6 +205,12 @@ class MainUI(QMainWindow):
                 self.artifact_defense -= value
             elif stat == 'Magic':
                 self.artifact_magic -= value
+            elif stat == 'Health':
+                self.health -= value
+                self.total_health()
+            elif stat == 'Slots':
+                self.slots -= value
+                self.total_slots()
         self.total_stats()
         
     def total_stats(self):
@@ -195,6 +220,20 @@ class MainUI(QMainWindow):
         self.strength_label.setText(str(strength))
         self.defense_label.setText(str(defense))
         self.magic_label.setText(str(magic))
+
+    def total_health(self):
+        for i in range(self.hearts.count()):
+            if i <= (self.health - 1):
+                self.hearts.itemAt(i).widget().setPixmap(QPixmap(self.heart_path).scaled(22, 20))
+            else:
+                self.hearts.itemAt(i).widget().setPixmap(QPixmap())
+
+    def total_slots(self):
+        for i in range(4, self.command_slots.count()):
+            if i <= (self.slots - 1):
+                self.command_slots.itemAt(i).widget().setPixmap(QPixmap(os.path.join(self.icons_path, f"{random.choice(self.icons_list)}")).scaled(22, 20))
+            else:
+                self.command_slots.itemAt(i).widget().setPixmap(QPixmap())
 
     def show_main_ui(self):
         self.show()
