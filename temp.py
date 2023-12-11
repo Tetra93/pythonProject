@@ -205,14 +205,13 @@ new_main_armor = {'Gaia Plate':
     'Defense': 30,
     'effect': None}}
 """
-new_sub_armor = {'Valkyrie Helm':
-   {'race': 'Yuke',
-    'Defense': 23,
-    'effect': 'Resist Stop',
-    'value': 2}}
+new_sub_armor = {'Old Belt':
+   {'race': 'Selkie',
+    'Defense': 5,
+    'effect': None}}
 
-if list(new_artifact.keys())[0] not in items[0].keys():
-    items[0].update(new_artifact)
+#if list(new_artifact.keys())[0] not in items[0].keys():
+#    items[0].update(new_artifact)
 
 #print(items[1].keys())
 #if list(new_weapon.keys())[0] not in items[1].keys():
@@ -221,29 +220,20 @@ if list(new_artifact.keys())[0] not in items[0].keys():
 #if list(new_main_armor.keys())[0] not in items[2].keys():
 #    items[2].update(new_main_armor)
 
-#if list(new_sub_armor.keys())[0] not in items[3].keys():
-#    items[3].update(new_sub_armor)
+if list(new_sub_armor.keys())[0] not in items[3].keys():
+    items[3].update(new_sub_armor)
 
 #print(items[0].keys())
 
-items[0] = dict(sorted(items[0].items(), key=lambda x: (sorting_order.get(x[1]['stat']), x[1]['value'])))
+#items[0] = dict(sorted(items[0].items(), key=lambda x: (sorting_order.get(x[1]['stat']), x[1]['value'])))
 #items[1] = dict(sorted(items[1].items(), key=lambda x: (race_order.get(x[1]['race']), x[1]['Strength'])))
 #items[2] = dict(sorted(items[2].items(), key=lambda x: x[1]['Defense']))
-#items[3] = dict(sorted(items[3].items(), key=lambda x: (race_order.get(x[1]['race']), x[1]['Defense'])))
+items[3] = dict(sorted(items[3].items(), key=lambda x: (race_order.get(x[1]['race']), x[1]['Defense'])))
 
-print(items[0].keys())
+#print(items[0].keys())
 #print(items[1])
 #print(items[2])
-#print(items[3])
-
-#items.append({'Copper Sword': {'race': 'Clavat', 'Strength': '15', 'focus attack': 'Power Slash'}})
-
-#items.append()
-
-#items.append({'Makeshift Shield': {'race': 'Clavat', 'Defense': 7, 'effect': None, 'value': None}})
-#items.append({'Badge of the Flame': {'race': 'All', 'effect': 'Resist Fire', 'value': 1}})
-#print(items[2])
-#print(items[3])
+print(items[3])
 #print(items[4])
 with open('items.txt', 'w') as file:
     json.dump(items, file)

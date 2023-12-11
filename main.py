@@ -25,7 +25,7 @@ class MainUI(QMainWindow):
     images_path = os.path.join(os.path.dirname(__file__), 'images')
     icons_path = os.path.join(images_path, 'icons')
     icons_list = os.listdir(icons_path)
-    heart_path = os.path.join(images_path, 'heart.png')
+    heart_path = os.path.join(images_path, 'heart2.png')
     sub_button: QPushButton
     calculate_button: QPushButton
     race_box: QComboBox
@@ -98,13 +98,13 @@ class MainUI(QMainWindow):
 
         self.sub_button.clicked.connect(self.sub_on_click)
         self.command_slots.itemAt(0).widget().setPixmap(
-            QPixmap(os.path.join(self.icons_path, f"{self.icons_list[1]}")).scaled(22, 20))
+            QPixmap(os.path.join(self.icons_path, "sword.png")).scaled(22, 20))
         self.command_slots.itemAt(1).widget().setPixmap(
-            QPixmap(os.path.join(self.icons_path, f"{self.icons_list[0]}")).scaled(22, 20))
+            QPixmap(os.path.join(self.images_path, "shield.png")).scaled(22, 20))
         self.command_slots.itemAt(2).widget().setPixmap(
-            QPixmap(os.path.join(self.icons_path, f"{self.icons_list[1]}")).scaled(22, 20))
+            QPixmap(os.path.join(self.icons_path, f"{random.choice(self.icons_list)}")).scaled(22, 20))
         self.command_slots.itemAt(3).widget().setPixmap(
-            QPixmap(os.path.join(self.icons_path, f"{self.icons_list[1]}")).scaled(22, 20))
+            QPixmap(os.path.join(self.icons_path, f"{random.choice(self.icons_list)}")).scaled(22, 20))
 
         self.race_changed()
         self.weapon_changed()
@@ -230,9 +230,10 @@ class MainUI(QMainWindow):
 
     def total_slots(self):
         for i in range(4, self.command_slots.count()):
-            if i <= (self.slots - 1):
-                self.command_slots.itemAt(i).widget().setPixmap(QPixmap(os.path.join(self.icons_path, f"{random.choice(self.icons_list)}")).scaled(22, 20))
-            else:
+            if self.command_slots.itemAt(i).widget().pixmap().isNull() and i <= (self.slots - 1):
+                self.command_slots.itemAt(i).widget().setPixmap(QPixmap(
+                    os.path.join(self.icons_path, f"{random.choice(self.icons_list)}")).scaled(22, 20))
+            elif i > (self.slots - 1):
                 self.command_slots.itemAt(i).widget().setPixmap(QPixmap())
 
     def show_main_ui(self):
