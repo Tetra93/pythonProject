@@ -40,6 +40,8 @@ class MainUI(QMainWindow):
     strength_label: QLabel
     defense_label: QLabel
     magic_label: QLabel
+    status_resistances = {'Resist Fire': 0, 'Resist Ice': 0, 'Resist Lightning': 0, 'Resist Slow': 0,
+                          'Resist Stop': 0, 'Resist Poison': 0, 'Resist Curse': 0, 'Resist Stone': 0}
     artifact_strength = 0
     artifact_defense = 0
     artifact_magic = 0
@@ -60,15 +62,19 @@ class MainUI(QMainWindow):
         hearts = self.findChild(QHBoxLayout, 'hearts')
         self.race_box.addItems(['Clavat', 'Selkie', 'Lilty', 'Yuke'])
         self.gender_box.addItems((['Male', 'Female']))
-        for key, inner_dict in self.accessories.items():
-            self.accessory_box.addItems([key])
+        #self.accessory_box.addItem('None')
+        #for key, inner_dict in self.accessories.items():
+        #    self.accessory_box.addItems([key])
         self.race_box.currentTextChanged.connect(self.race_changed)
+        self.gender_box.currentTextChanged.connect(self.gender_changed)
         self.populate_weapons()
         self.weapon_box.currentTextChanged.connect(self.weapon_changed)
         self.populate_main_armor()
         self.main_armor_box.currentTextChanged.connect(self.main_armor_changed)
         self.populate_sub_armor()
         self.sub_armor_box.currentTextChanged.connect(self.sub_armor_changed)
+        self.populate_accessories()
+        self.accessory_box.currentTextChanged.connect(self.accessory_changed)
         self.widget = QWidget(self.centralwidget)
         self.widget.setGeometry(20, 10, 330, 180)
         self.grid = QGridLayout(self.widget)
@@ -107,6 +113,7 @@ class MainUI(QMainWindow):
             QPixmap(os.path.join(self.icons_path, f"{random.choice(self.icons_list)}")).scaled(22, 20))
 
         self.race_changed()
+        self.gender_changed()
         self.weapon_changed()
         self.main_armor_changed()
         self.sub_armor_changed()
@@ -134,6 +141,13 @@ class MainUI(QMainWindow):
             if inner_dict['race'] == self.race_box.currentText():
                 self.sub_armor_box.addItems([key])
 
+    def populate_accessories(self):
+        self.accessory_box.addItem('None')
+        for key, inner_dict in self.accessories.items():
+            if inner_dict['race'] == self.race_box.currentText() or inner_dict['race'] == "All":
+                if inner_dict['gender'] == self.gender_box.currentText() or inner_dict['gender'] == 'All':
+                    self.accessory_box.addItems([key])
+
     def race_changed(self):
         race = self.race_box.currentText()
         if race == 'Clavat':
@@ -155,10 +169,16 @@ class MainUI(QMainWindow):
         self.weapon_box.clear()
         self.main_armor_box.clear()
         self.sub_armor_box.clear()
+        self.accessory_box.clear()
         self.populate_weapons()
         self.populate_main_armor()
         self.populate_sub_armor()
+        self.populate_accessories()
         self.total_stats()
+
+    def gender_changed(self):
+        self.accessory_box.clear()
+        self.populate_accessories()
 
     def weapon_changed(self):
         if self.weapon_box.currentText() != '':
@@ -172,6 +192,8 @@ class MainUI(QMainWindow):
         if self.main_armor_box.currentText() != '':
             self.main_defense = int(self.main_armor[self.main_armor_box.currentText()]['Defense'])
             self.total_stats()
+            if self.main_armor[self.main_armor_box.currentText()]['effect'] is not None:
+                self.total_resistances()
         else:
             self.main_defense = 0
             self.total_stats()
@@ -180,9 +202,14 @@ class MainUI(QMainWindow):
         if self.sub_armor_box.currentText() != '':
             self.sub_defense = int(self.sub_armor[self.sub_armor_box.currentText()]['Defense'])
             self.total_stats()
+            if self.sub_armor[self.sub_armor_box.currentText()]['effect'] is not None:
+                self.total_resistances()
         else:
             self.sub_defense = 0
             self.total_stats()
+
+    def accessory_changed(self):
+        print('Hello')
 
     def on_checkbox_changed(self, state, stat, value):
         if state:
@@ -217,9 +244,31 @@ class MainUI(QMainWindow):
         strength = (self.artifact_strength + self.race_strength + self.weapon_strength)
         defense = (self.artifact_defense + self.race_defense + self.main_defense + self.sub_defense)
         magic = (self.artifact_magic + self.race_magic)
+        for key in self.status_resistances:
+            self.status_resistances[key] = 0
+        if self.main_armor_box.count() > 0:
+            if self.main_armor[self.main_armor_box.currentText()]['effect'] is not None:
+                self.status_resistances[self.main_armor[self.main_armor_box.currentText()]['effect']] \
+                    += self.main_armor[self.main_armor_box.currentText()]['value']
+                for key in self.status_resistances:
+                    print(self.status_resistances[key])
         self.strength_label.setText(str(strength))
         self.defense_label.setText(str(defense))
         self.magic_label.setText(str(magic))
+
+    def total_resistances(self):
+        for key in self.status_resistances:
+            self.status_resistances[key] = 0
+        if self.main_armor_box.count() > 0:
+            if self.main_armor[self.main_armor_box.currentText()]['effect'] is not None:
+                self.status_resistances[self.main_armor[self.main_armor_box.currentText()]['effect']] \
+                    += self.main_armor[self.main_armor_box.currentText()]['value']
+        if self.sub_armor_box.count() > 0:
+            if self.sub_armor[self.sub_armor_box.currentText()]['effect'] is not None:
+                self.status_resistances[self.sub_armor[self.sub_armor_box.currentText()]['effect']] \
+                    += self.sub_armor[self.sub_armor_box.currentText()]['value']
+        for key in self.status_resistances:
+            print(self.status_resistances[key])
 
     def total_health(self):
         for i in range(self.hearts.count()):

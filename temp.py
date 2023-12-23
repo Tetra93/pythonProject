@@ -205,10 +205,11 @@ new_main_armor = {'Gaia Plate':
     'Defense': 30,
     'effect': None}}
 """
-new_sub_armor = {'Old Belt':
+new_sub_armor = {'Valkyrie Belt':
    {'race': 'Selkie',
-    'Defense': 5,
-    'effect': None}}
+    'Defense': 23,
+    'effect': 'Resist Stop',
+    'value': 2}}
 
 #if list(new_artifact.keys())[0] not in items[0].keys():
 #    items[0].update(new_artifact)
